@@ -22,9 +22,8 @@ git config user.email
 #生成密钥。还不知道这些参数什么意思
 ssh-keygen -t rsa -C "merrily@live.com"
 #会生成两个文件id_rsa和id_rsa.pub。前者不动，后者复制到GitHub上。
+
 ```
-
-
 
 * 远程仓库的设置
 
@@ -39,8 +38,7 @@ git remote
 git remote -v
 #移除远程仓库
 git remove github
-#与远程同步有三个指令，clone，push，fetch，pull
-#我还不知道怎么用
+
 ```
 
 * 远程仓库与本地仓库的同步(参考了这篇[博客](https://blog.csdn.net/u012575819/article/details/50553501))
@@ -58,6 +56,7 @@ git merge remotes/github/master --allow-unrelated-histories
 git push github master:master
 #以后只要拉取远程仓库就行了。相当于fetch+merge 与当前支合并。
 git pull github master
+
 ```
 
 * 基本的本地操作
@@ -77,7 +76,37 @@ git commit -m "修改说明"
 #查看标签所有标签
 git tag
 #打标签默认是打在当前分支最近一次commit上的。
-git tag v1.0 -m "第一个版本"
+git tag 1.0 -m "第一个版本"
+#也可以指定某一个commit id
+git tag 1.1 d3487d -m "用id打标签"
+#查看标签、删除标签
+git show 1.0
+git tag -d 1.0
+#检出标签。签出1.1版本，创建一个新的分支，将这个版本的内容移到新分支上
+git checkout -b branchname 1.1
+
+```
+
+* git中的分支
+
+```bash
+#创建dev分支 切换到dev分支 就是改变HEAD指针指向的分支 
+git branch dev
+git checkout dev
+#也可以创建并切换到dev分支 切换分支前要先提交修改
+git checkout -b dev
+#将dev分支的修改合并到master上 没有分叉的情况下这叫做快进
+#合并以后就可以删除dev分支了
+git checkout master
+git merge dev
+git branch -d dev
+#分支会产生分叉 两个分叉需要和直接祖先合并
+#因为两个分叉可能修改了同一个文件 两个分支产生了冲突 不能自动合并
+#需要手动将两个版本中的内容改成一样的，重新合并
+#查看冲突状态
+git status
+
+
 ```
 
 
